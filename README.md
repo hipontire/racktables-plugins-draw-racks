@@ -7,7 +7,7 @@ Outputs the rack layout to the MS Excel sheets
 
 <h2>インストール方法</h2>
 ファイルをpluginsディレクトリ以下に配置します。
-<pr>
+<pre>
 ＋plugins
     drawracks.php
    +drawracks
@@ -18,4 +18,4 @@ Outputs the rack layout to the MS Excel sheets
      +Classes          -- PHP Excel
        +PHPExcel
         PHPExcel.php
-</pr>
+</pre>
