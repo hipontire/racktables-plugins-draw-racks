@@ -1,13 +1,13 @@
 # racktables-plugins-draw-racks
 Outputs the rack layout to the MS Excel sheets
 
-RackTables で作成したラック配置図をExcelに出力するプラグインです。
+<h3>RackTables で作成したラック配置図をExcelに出力するプラグインです。</h3>
 
-動作させるためには PHP Excel(https://phpexcel.codeplex.com/)が必要です。
+動作させるためには <A href="https://phpexcel.codeplex.com/" title="php Excel">PHP Excel</a>が必要です。
 
-インストール方法
+<h2>インストール方法</h2>
 ファイルをpluginsディレクトリ以下に配置します。
-
+<pr>
 ＋plugins
     drawracks.php
    +drawracks
@@ -18,3 +18,4 @@ RackTables で作成したラック配置図をExcelに出力するプラグイ�
      +Classes          -- PHP Excel
        +PHPExcel
         PHPExcel.php
+</pr>
