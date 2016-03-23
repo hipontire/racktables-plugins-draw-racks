@@ -21,4 +21,4 @@ Outputs the rack layout to the MS Excel sheets
 </pre>
 
 <h2>使用方法</h2>
-Report &gt; DrawRacks タブから出力するラックを選択し、「Export rack layout」をクリックします。
+Reports &gt; DrawRacks タブから出力するラックを選択し、「Export rack layout」をクリックします。
