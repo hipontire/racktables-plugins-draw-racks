@@ -50,6 +50,7 @@ class DrawRacks
 		if( ! isset( $drawracks_conf['bgstate_A'] ) )		$drawracks_conf['bgstate_A'] = "bfbfbf";
 		if( ! isset( $drawracks_conf['bgstate_U'] ) )		$drawracks_conf['bgstate_U'] = "bf8f8f";
 		if( ! isset( $drawracks_conf['bgstate_T'] ) )		$drawracks_conf['bgstate_T'] = "408080";
+		if( ! isset( $drawracks_conf['bgcell_border'] ) )	$drawracks_conf['bgcell_border'] = "000000";
 	}
 
 	/**
@@ -253,7 +254,7 @@ class DrawRacks
 		$yposn = $this->cellpos['name'][1];
 		$sheet->mergeCellsByColumnAndRow( $xposn, $yposn, $xposn + 2, $yposn );
 		$sheet->setCellValueByColumnAndRow( $xposn, $yposn, $rackdata['name'] );
-		$a1 = sprintf("%s%d:%s%d", $this->convertCol($xposl), $yposl, $this->convertCol($xposn + 2), $yposn); 
+		$a1 = sprintf("%s%d:%s%d", PHPExcel_Cell::stringFromColumnIndex($xposl), $yposl, PHPExcel_Cell::stringFromColumnIndex($xposn + 2), $yposn); 
 		$sheet->getStyle( $a1 )->getBorders()->getAllBorders()->setBorderStyle( PHPExcel_Style_Border::BORDER_THIN );
 		// Set Rack Label
 		$setvals = array (
@@ -275,8 +276,11 @@ class DrawRacks
 			$sheet->setCellValueByColumnAndRow( $xpos, $ypos, $i + 1 );
 			$sheet->getStyleByColumnAndRow( $xpos, $ypos )->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 		}
-		$a1 = sprintf("%s%d:%s%d", $this->convertCol($xpos), $this->cellpos['col_here'][1], $this->convertCol($xpos), $this->cellpos['col_here'][1] + $rackdata['height'] - 1); 
+		$a1 = sprintf("%s%d:%s%d", PHPExcel_Cell::stringFromColumnIndex($xpos), $this->cellpos['col_here'][1], PHPExcel_Cell::stringFromColumnIndex($xpos), $this->cellpos['col_here'][1] + $rackdata['height'] - 1); 
 		$sheet->getStyle( $a1 )->getBorders()->getAllBorders()->setBorderStyle( PHPExcel_Style_Border::BORDER_THIN );
+		$a1 = sprintf("%s%d:%s%d", PHPExcel_Cell::stringFromColumnIndex($xpos + 2), $this->cellpos['col_here'][1], PHPExcel_Cell::stringFromColumnIndex($xpos + 4), $this->cellpos['col_here'][1] + $rackdata['height'] - 1); 
+		$sheet->getStyle( $a1 )->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+		$sheet->getStyle( $a1 )->getBorders()->getAllBorders()->getColor()->setRGB($drawracks_conf['bgcell_border']);
 		// Set Rack Data
 		amplifyCell ($rackdata);
 		markAllSpans ($rackdata);
@@ -297,8 +301,9 @@ class DrawRacks
 						$sheet->setCellValueByColumnAndRow( $xpos, $ypos, $objectdata['name'] );
 						$sheet->getStyleByColumnAndRow( $xpos, $ypos )->getAlignment()->setWrapText(true);
 						$sheet->getStyleByColumnAndRow( $xpos, $ypos )->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-						$a1 = sprintf("%s%d:%s%d", $this->convertCol($xpos), $ypos, $this->convertCol($xpos + $colspan), $ypos + $rowspan); 
+						$a1 = sprintf("%s%d:%s%d", PHPExcel_Cell::stringFromColumnIndex($xpos), $ypos, PHPExcel_Cell::stringFromColumnIndex($xpos + $colspan), $ypos + $rowspan); 
 						$sheet->getStyle( $a1 )->getBorders()->getOutline()->setBorderStyle( PHPExcel_Style_Border::BORDER_THIN );
+						$sheet->getStyle( $a1 )->getBorders()->getOutline()->getColor()->setRGB('000000');
 						$bgcolor = $drawracks_conf['bgstate_T'];
 						break;
 					case 'A':	// This rackspace does not exist
@@ -320,31 +325,17 @@ class DrawRacks
 		// Set Boader Frame
 		$xpos = $this->cellpos['col_here'][0] + $rackdata['distance'];
 		$ypos = $this->cellpos['col_here'][1];
-		$a1 =  sprintf("%s%d:%s%d", $this->convertCol($xpos + 1), $ypos, $this->convertCol($xpos + 3), $ypos + $rackdata['height'] - 1); 
+		$a1 =  sprintf("%s%d:%s%d", PHPExcel_Cell::stringFromColumnIndex($xpos + 1), $ypos, PHPExcel_Cell::stringFromColumnIndex($xpos + 3), $ypos + $rackdata['height'] - 1); 
 		$sheet->getStyle( $a1 )->getBorders()->getOutline()->setBorderStyle( PHPExcel_Style_Border::BORDER_THIN );
-		$a1 =  sprintf("%s%d:%s%d", $this->convertCol($xpos), $ypos - 1, $this->convertCol($xpos + 4), $ypos + $rackdata['height']); 
+		$sheet->getStyle( $a1 )->getBorders()->getOutline()->getColor()->setRGB('000000');
+		$a1 =  sprintf("%s%d:%s%d", PHPExcel_Cell::stringFromColumnIndex($xpos), $ypos - 1, PHPExcel_Cell::stringFromColumnIndex($xpos + 4), $ypos + $rackdata['height']); 
 		$sheet->getStyle( $a1 )->getBorders()->getOutline()->setBorderStyle( PHPExcel_Style_Border::BORDER_MEDIUM );
 		// Set Column Widths
 		for($i=$this->cellpos['layout_here'][0]; $i<$this->cellpos['neighbor_here'][0]; $i++){
-			$width = $sheet->getColumnDimension($this->convertCol($i))->getWidth();
-			$sheet->getColumnDimension($this->convertCol($i + $rackdata['distance'] - 1))->setWidth($width);
+			$width = $sheet->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($i))->getWidth();
+			$sheet->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($i + $rackdata['distance'] - 1))->setWidth($width);
 		}
 		return $sheet;
-	}
-	
-	/*
-	 * Get Excel Column Name(0=A,255=IV)
-	 */
-	function convertCol($col) {
-		$ret = '';
-		$amari = $col % 26;
-		$ret = chr(65 + $amari);
-		while ($col >= 26){
-			$col = ($col - $amari) / 26;
-			$amari = $col % 26;
-			$ret = chr(64 + $amari) . $ret;
-		}
-		return $ret;
 	}
 	
 	/**

@@ -22,7 +22,8 @@ $drawracks_conf = array (
 	'bgstate_F'			=> "afcfcf",
 	'bgstate_A'			=> "cfcfcf",
 	'bgstate_U'			=> "cfafaf",
-	'bgstate_T'			=> "70a0a0"
+	'bgstate_T'			=> "70a0a0",
+	'bgcell_border'			=> "707070"
 );
 $tab['reports']['rack'] = 'ラック配置図';
 ?>
