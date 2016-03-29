@@ -15,7 +15,7 @@ Outputs the rack layout to the MS Excel sheets
       drawracksLib.php
      +xlsx             -- Template File
        drawracks.xlsx
-     +Classes          -- PHP Excel
+     +Classes          -- PHP Excel のClassesディレクトリをコピー
        +PHPExcel
         PHPExcel.php
 </pre>
