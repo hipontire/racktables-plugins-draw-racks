@@ -23,6 +23,8 @@ Outputs the rack layout to the MS Excel sheets
 <h2>使用方法</h2>
 Reports &gt; DrawRacks タブから出力するラックを選択し、「Export rack layout」をクリックします。
 
+<h2>追加されるメニュー</h2><a href="https://raw.githubusercontent.com/hipontire/racktables-plugins-draw-racks/master/addedmenu.png" target="_blank"><img src="https://github.com/hipontire/racktables-plugins-draw-racks/blob/master/addedmenu.png" width="673" height="113"></a>
+
 <h2>出力サンプル</h2>
 <a href="https://raw.githubusercontent.com/hipontire/racktables-plugins-draw-racks/master/snapshot.png" target="_blank"><img src="https://github.com/hipontire/racktables-plugins-draw-racks/blob/master/snapshot.png" width="589" height="419"></a>
 
